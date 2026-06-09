@@ -17,7 +17,8 @@ class ExcelDataLoader:
         self.xls = pd.ExcelFile(file_path)
 
     def _load_categories(self) -> List[CourseCategory]:
-        df_cat = pd.read_excel(self.xls, 'Categories').replace({np.nan: None})
+        #df_cat = pd.read_excel(self.xls, 'Categories').replace({np.nan: None})
+        df_cat = pd.read_excel(self.xls, 'Categories', na_values=[], keep_default_na=False)
         categories = []
         #print(df_cat)
         for _, row in df_cat.iterrows():
@@ -31,12 +32,12 @@ class ExcelDataLoader:
 
             raw_pref = str(row['preferred_slot']).strip() if row.get('preferred_slot') else None
             preferred = [int(x.strip()) for x in raw_pref.split(',')] if raw_pref and raw_pref != "None" else []            
-            #print(row["choice_type"], type(row["choice_type"]))
+            #(row["choice_type"], type(row["choice_type"]))
             categories.append(CourseCategory(
                 id=str(row['ID']), 
                 name=str(row['Name']), 
                 choice_type=row['choice_type'].upper()  if row['choice_type'] is not None else "NONE",
-                choice_count=int(row['choice_count']) if row['choice_count'] is not None else 0,
+                choice_count=int(row['choice_count']) if row['choice_count'] is not None and row["choice_count"] != '' else 0,
                 allowed_slots=allowed_slots,
                 allowed_days=allowed_days,
                 preferred_slots=preferred
@@ -46,7 +47,8 @@ class ExcelDataLoader:
 
     def _load_locations(self) -> List[TeachingLocation]:
         # 1. Load Rooms
-        df_rooms = pd.read_excel(self.xls, 'Rooms').replace({np.nan: None})
+        #df_rooms = pd.read_excel(self.xls, 'Rooms').replace({np.nan: None})
+        df_rooms = pd.read_excel(self.xls, 'Rooms', na_values=[], keep_default_na=False)
         # print(df_rooms)
         print("Loading rooms")
         # for _, row in df_rooms.iterrows():
@@ -80,7 +82,8 @@ class ExcelDataLoader:
 
     def _load_programs(self, config: WorkWeekConfig) -> List[Program]:
         print("Loading programs")
-        df_programs = pd.read_excel(self.xls, 'Programs').replace({np.nan: None})
+        #df_programs = pd.read_excel(self.xls, 'Programs').replace({np.nan: None})
+        df_programs = pd.read_excel(self.xls, 'Programs', na_values=[], keep_default_na=False)
         programs = []
        
         for _, row in df_programs.iterrows():
@@ -101,7 +104,8 @@ class ExcelDataLoader:
     def _load_terms(self) -> List[Term]:
         from datetime import date
         try:
-            df = pd.read_excel(self.xls, 'Terms').replace({np.nan: None})
+            #df = pd.read_excel(self.xls, 'Terms').replace({np.nan: None})
+            df = pd.read_excel(self.xls, 'Terms', na_values=[], keep_default_na=False)
             terms = []
             for _, row in df.iterrows():
                 term_id = str(row['term_id']).strip()
@@ -128,7 +132,8 @@ class ExcelDataLoader:
     def _load_faculty(self, config: WorkWeekConfig) -> List[Faculty]:
         # 2. Load Faculty
         print("Loading faculty")
-        df_fac = pd.read_excel(self.xls, 'Faculty').replace({np.nan: None})
+        #df_fac = pd.read_excel(self.xls, 'Faculty').replace({np.nan: None})
+        df_fac = pd.read_excel(self.xls, 'Faculty', na_values=[], keep_default_na=False)
         faculty = []
         for _, row in df_fac.iterrows():
             #print(row)
@@ -157,7 +162,8 @@ class ExcelDataLoader:
     def _load_courses_sections_cohorts(self, faculty: List[Faculty], course_categories: List[CourseCategory], programs: List[Program]) -> Tuple[List[Course], List[Section], Set]:
         # 3. Load Merged Sections with "ALL" and Duration logic
         try:
-            df_sections = pd.read_excel(self.xls, 'Sections').replace({np.nan: None})
+            #df_sections = pd.read_excel(self.xls, 'Sections').replace({np.nan: None})
+            df_sections = pd.read_excel(self.xls, 'Sections', na_values=[], keep_default_na=False)
             courses = []
             sections = []
             explicit_cohort_ids = set()

@@ -4,6 +4,7 @@ from src.data_loader import ExcelDataLoader
 from src.domain import WorkWeekConfig, TimeSlot, RoomType
 
 import sys
+import traceback
 import pandas as pd
 from pathlib import Path
 import os, shutil
@@ -86,11 +87,11 @@ def main():
     #INPUT_FILE = "src/data/BHPL Jul  26_ Course list template_timetable 2005.xlsx"
     #INPUT_FILE = "src/data/BHPL Jul  26_ Course list template_timetable 2005_26052026_PG Version.xlsx"
     #INPUT_FILE = "src/data/BHPL Jul  26_ Course list template_timetable 2005_26052026.xlsx"
-    INPUT_FILE = "src/data/BHPL Jul  26_ Course list template_timetable 2005_26052026_PG Version new1.xlsx"
+    INPUT_FILE = "data/input/BHPL Jul  26_ Course list template_timetable 2005_26052026_PG Version new1.xlsx"
     datetime_str = datetime.today().strftime('%d%m_%Y%H%M')
-    SOLUTION_HINT_SAVE_FILE = f"src/data/solution_hint_{datetime_str}.json"
-    SOLUTION_HINT_FILE = f"src/data/solution_hint.json"
-    TIMETABLE_OUTPUT_DIR = f"src/data/timetables_{datetime_str}"
+    SOLUTION_HINT_SAVE_FILE = f"data/working/solution_hint_{datetime_str}.json"
+    SOLUTION_HINT_FILE = f"data/working/solution_hint.json"
+    TIMETABLE_OUTPUT_DIR = f"data/output/timetables_{datetime_str}"
     dirname = os.path.dirname(INPUT_FILE)      # /a/b
     base, ext = os.path.splitext(os.path.basename(INPUT_FILE))  # ('c', '.txt')
     OUTPUT_FILE = os.path.join(dirname, base + "_with_timetable" + ext)
@@ -121,14 +122,15 @@ def main():
             sys.exit(1)
         #print(f"Successfully loaded {len(scenario.courses)} courses, {len(scenario.sections)} schedulable sections and {len(scenario.locations)} rooms.")
     except Exception as e:
+        print(traceback.format_exc())
         print(f"Error loading Excel file: {e}")
         sys.exit(1)    
     #sys.exit(0)
     # 3. Initialize the Solver
     # relax_on_failure=True allows the solver to show conflicts instead of just saying 'No'
-    METADATA_FILE = "src/data/solution_metadata.json"
+    METADATA_FILE = "data/working/solution_metadata.json"
     #FIRST_TIMEOUT = 5400    # 90 minutes
-    FIRST_TIMEOUT = 3600    # 60 minutes
+    FIRST_TIMEOUT = 60    # 60 minutes
     #FIRST_TIMEOUT = 900    # 15 minutes
     #FIRST_TIMEOUT = 300    
     FOLLOWUP_TIMEOUT = 1800  # 30 minutes
