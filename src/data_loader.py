@@ -45,7 +45,7 @@ class ExcelDataLoader:
         #sys.exit(0)
         return categories
 
-    def _load_locations(self) -> List[TeachingLocation]:
+    def _load_locations(self, config: WorkWeekConfig) -> List[TeachingLocation]:
         # 1. Load Rooms
         #df_rooms = pd.read_excel(self.xls, 'Rooms').replace({np.nan: None})
         df_rooms = pd.read_excel(self.xls, 'Rooms', na_values=[], keep_default_na=False)
@@ -60,6 +60,16 @@ class ExcelDataLoader:
             raw_layouts = str(row['layouts']).strip().upper() if row.get('layouts') else None
             layouts = [l.strip().upper() for l in raw_layouts.split(',')] if raw_layouts and raw_layouts != "None" else None
 
+            available_slots = []
+            for i, day in enumerate(['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']):
+                avail_list = str(row[day]).strip().split(',')
+                for a in avail_list:
+                    if a.strip() == 'ALL':
+                        for s in range(config.slots_per_day):
+                            available_slots.append(TimeSlot(day_index=i, slot_index=s))
+                    elif a.strip() != 'NONE':
+                        available_slots.append(TimeSlot(day_index=i, slot_index=int(a.strip())))
+
             locations.append(
                 TeachingLocation(
                     id=str(row['id']), name=str(row['name']), 
@@ -67,6 +77,7 @@ class ExcelDataLoader:
                     classroom_capacity=row['classroom_capacity'],
                     building=building,
                     layouts = layouts,
+                    available_slots=available_slots,
                     lab_type=row['lab_type'].strip().upper() if row['lab_type'] else None
                 )
             )
@@ -298,7 +309,7 @@ class ExcelDataLoader:
             return None
         #pp.pprint(categories)
 
-        locations = self._load_locations()
+        locations = self._load_locations(config)
         if not locations:
             print("No locations found! Exiting.")
             return None

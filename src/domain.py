@@ -72,7 +72,7 @@ class TeachingLocation(BaseModel):
     classroom_capacity: Optional[int] = None
     lab_type: Optional[str] = None
     layouts: Optional[List[str]] = None
-
+    available_slots: List[TimeSlot]
 
     @model_validator(mode='after')
     def validate_subtypes(self):

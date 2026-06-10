@@ -1354,6 +1354,54 @@ class TimetableSolver:
                 # # Penalize linearly for every class over the ideal threshold
                 # self.penalties.append(excess * overcrowding_penalty)
 
+    def add_room_availability_constraints(self):
+        print("--- Applying Hard Constraint: Room Availability ---")
+        
+        # 1. Build a quick lookup map of available slots for each room
+        loc_avail_map = {}
+        for loc in self.scenario.locations:
+            # Check if the room has specific availability defined
+            if hasattr(loc, 'available_slots') and loc.available_slots:
+                # Convert TimeSlot objects to flat absolute integers
+                loc_avail_map[loc.id] = { 
+                    (s.day_index * self.slots_per_day + s.slot_index) 
+                    for s in loc.available_slots 
+                }
+            else:
+                # If no specific availability is defined, assume 24/7 availability
+                loc_avail_map[loc.id] = set(range(self.total_slots))
+
+        # 2. Iterate through all sessions to apply the constraint
+        for suffix, data in self.session_vars.items():
+            duration = data["duration"]
+            
+            # Get the boolean literals representing the chosen start time
+            lits = self.session_start_lits.get(suffix)
+            if not lits:
+                continue
+
+            # Iterate through every candidate room for this session
+            for loc_id, pres_var in data["presence_map"].items():
+                if loc_id == "NO_ROOM":
+                    continue
+
+                available_slots = loc_avail_map.get(loc_id, set())
+
+                # Check every potential start time
+                for st, lit in lits.items():
+                    # Check if the room is available for the ENTIRE duration of the class
+                    room_is_available = True
+                    for offset in range(duration):
+                        if (st + offset) not in available_slots:
+                            room_is_available = False
+                            break
+
+                    # 3. Apply the Boolean Implication
+                    if not room_is_available:
+                        # Logic: IF the session starts at 'st' (lit == 1), 
+                        # THEN the presence variable for this room MUST be 0.
+                        self.model.Add(pres_var == 0).OnlyEnforceIf(lit)
+
     def add_constraints(self):
 
         # Add the constraint that only one one room should be picked for a session - assignment constraint
@@ -1376,6 +1424,7 @@ class TimetableSolver:
         #print(f"After daily distribution: {len(self.model.Proto().constraints)} constraints")
 
         self.add_unified_cohort_constraints()
+        self.add_room_availability_constraints()
         self.add_meeting_slot_penalties()
         self.add_faculty_rest_soft_constraint()        
         self.add_preferred_building_constraints()
