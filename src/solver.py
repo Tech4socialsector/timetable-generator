@@ -182,28 +182,46 @@ class TimetableSolver:
         print("=== Adding meeting slot penalties ===")
         self.meeting_violations = []
         
+        # 1. PRE-COMPUTE meeting slots mapping for faster lookup.
+        # This creates a dictionary: {(program_id, term_id): [slots]}
+        # Note: Ensure 'program_term_meeting_slots' matches the exact variable 
+        # name you used in data_loader.py to store your new pydantic objects.
+        meeting_slot_map = {}
+        if hasattr(self.scenario, 'program_term_meeting_slots'):
+            for pt in self.scenario.program_term_meeting_slots:
+                key = (pt.program_id.upper(), pt.term_id.upper())
+                meeting_slot_map[key] = pt.meeting_slots
+        
         for suffix, data in self.session_vars.items():
             section = data["section"]
-            # if section.course_id == "669402":
-            #     print(suffix)
             course = self.scenario.get_course_by_id(section.course_id)
             all_prog_ids = [p.upper() for p in (course.program_ids or [])] + ["GLOBAL"]
+            
+            # Retrieve the term for this specific session
+            section_term = data.get("term_id", "FULL").upper()
             
             # Build blocked slots for this session
             blocked = set()
             global_blocked = set()
-            for prog_id in all_prog_ids:
-                program = self.scenario.get_program_by_id(prog_id)
-                if program:
-                    if prog_id == "GLOBAL":
-                        global_blocked.update(program.meeting_slots)
-                    else:   
-                        blocked.update(program.meeting_slots)
             
-            if not blocked:
+            for prog_id in all_prog_ids:
+                # Fetch slots specifically for this section's term
+                term_slots = meeting_slot_map.get((prog_id, section_term), [])
+                
+                # Fetch slots assigned to the "FULL" term (they apply universally)
+                full_slots = meeting_slot_map.get((prog_id, "FULL"), [])
+                
+                # Combine them
+                combined_slots = set(term_slots) | set(full_slots)
+                
+                if prog_id == "GLOBAL":
+                    global_blocked.update(combined_slots)
+                else:   
+                    blocked.update(combined_slots)
+            
+            if not blocked and not global_blocked:
                 continue
-            # if section.course_id == "669402":
-            #     print("Blocked ", blocked)
+                
             # For each allowed start that would occupy a blocked slot, add penalty
             lits = self.session_start_lits[suffix]
             for st, lit in lits.items():
@@ -216,8 +234,7 @@ class TimetableSolver:
                         else:
                             occupies_blocked = True
                         break
-                # if section.course_id == "669402":
-                #     print("Start ", st, "Duration ", data["duration"], "occupies_blocked ", occupies_blocked)
+
                 if occupies_blocked or occupies_global_blocked:
                     if occupies_global_blocked:
                         self.penalties.append(lit * global_violation_penalty)
@@ -227,9 +244,106 @@ class TimetableSolver:
                     self.meeting_violations.append({
                         "suffix": suffix,
                         "slot": st,
-                        "var": lit,          # reuse the existing lit directly
+                        "var": lit,          
                         "section": section
                     })
+
+    def add_faculty_free_day_soft_constraint(self, penalty_weight=10000):
+        """
+        Soft constraint: Ensure each faculty member has at least one completely free day.
+        A day is "busy" if they teach a class OR have a meeting (FACULTY/BOTH attendee types).
+        """
+        print("--- Applying Soft Constraint: Faculty Free Day ---")
+        
+        from collections import defaultdict
+
+        # Initialize tracking for the post-solve report
+        if not hasattr(self, 'faculty_free_day_violations'):
+            self.faculty_free_day_violations = []
+
+        num_days = self.num_days
+        slots_per_day = self.slots_per_day
+
+        # 1. Pre-compute Fixed Meeting Days for each Faculty
+        # We find all meetings that apply to this faculty and convert the slot index to a day index.
+        faculty_meeting_days = defaultdict(set)
+        if hasattr(self.scenario, 'program_term_meeting_slots'):
+            for f in self.scenario.faculty:
+                # Faculty's specific programs + GLOBAL university meetings
+                fac_progs = set([p.upper() for p in getattr(f, 'program_ids', [])] + ["GLOBAL"])
+                
+                for pt in self.scenario.program_term_meeting_slots:
+                    att_type = getattr(pt, 'attendee_type', 'BOTH').upper()
+                    
+                    # Skip meetings that only involve students
+                    if att_type == 'STUDENT_ONLY':
+                        continue
+                        
+                    if pt.program_id.upper() in fac_progs:
+                        for slot in pt.meeting_slots:
+                            # Convert absolute slot index to day index (0 to num_days-1)
+                            faculty_meeting_days[f.id].add(slot // slots_per_day)
+
+        # 2. Map Sessions to Faculty
+        faculty_sessions = defaultdict(list)
+        for suffix, data in self.session_vars.items():
+            for f_id in data["section"].faculty_ids:
+                faculty_sessions[f_id].append((suffix, data))
+
+        # 3. Create the Constraint per Faculty
+        for f in self.scenario.faculty:
+            f_id = f.id
+            meeting_days = faculty_meeting_days[f_id]
+            sessions = faculty_sessions[f_id]
+            
+            day_active_vars = []
+            
+            for d in range(num_days):
+                # Condition A: Is there a fixed meeting today?
+                if d in meeting_days:
+                    day_active_vars.append(1) # Hardcoded as a busy day
+                else:
+                    # Condition B: Did the solver schedule a class today?
+                    sessions_on_this_day = []
+                    
+                    for suffix, data in sessions:
+                        start_var = data["start"]
+                        
+                        # Calculate the day this session falls on
+                        day_val_var = self.model.NewIntVar(0, num_days - 1, f"fac_{f_id}_{suffix}_day_val")
+                        self.model.AddDivisionEquality(day_val_var, start_var, slots_per_day)
+                        
+                        # Create a boolean: 1 if session is on day 'd', 0 otherwise
+                        is_on_day = self.model.NewBoolVar(f"fac_{f_id}_{suffix}_on_day_{d}")
+                        self.model.Add(day_val_var == d).OnlyEnforceIf(is_on_day)
+                        self.model.Add(day_val_var != d).OnlyEnforceIf(is_on_day.Not())
+                        
+                        sessions_on_this_day.append(is_on_day)
+                    
+                    if not sessions_on_this_day:
+                        day_active_vars.append(0)
+                    else:
+                        # Combine all session booleans: day is active if ANY session is on this day
+                        day_is_active = self.model.NewBoolVar(f"fac_{f_id}_active_day_{d}")
+                        self.model.AddMaxEquality(day_is_active, sessions_on_this_day)
+                        day_active_vars.append(day_is_active)
+            
+            # 4. Count total active days for this faculty
+            total_active_days = self.model.NewIntVar(0, num_days, f"fac_{f_id}_total_active_days")
+            self.model.Add(total_active_days == sum(day_active_vars))
+            
+            # 5. Apply Penalty if active days == total days in the week
+            has_no_free_day = self.model.NewBoolVar(f"fac_{f_id}_no_free_day")
+            self.model.Add(total_active_days == num_days).OnlyEnforceIf(has_no_free_day)
+            self.model.Add(total_active_days < num_days).OnlyEnforceIf(has_no_free_day.Not())
+            
+            self.penalties.append(has_no_free_day * penalty_weight)
+            
+            # Track for post-solve reporting
+            self.faculty_free_day_violations.append({
+                "var": has_no_free_day,
+                "faculty_id": f_id
+            })
 
     def create_variables(self):
         """
@@ -1426,7 +1540,8 @@ class TimetableSolver:
         self.add_unified_cohort_constraints()
         self.add_room_availability_constraints()
         self.add_meeting_slot_penalties()
-        self.add_faculty_rest_soft_constraint()        
+        self.add_faculty_rest_soft_constraint()
+        self.add_faculty_free_day_soft_constraint(penalty_weight=10000)        
         self.add_preferred_building_constraints()
         self.add_cohort_spreading_soft_constraints()
         self.add_preferred_room_layout_constraints()
@@ -1576,6 +1691,20 @@ class TimetableSolver:
                     f"(Day {v['slot']//6}, Slot {v['slot']%6})")
                 print(f"    All allowed starts: "
                     f"{self.session_vars[v['suffix']]['allowed_starts_list']}")
+    
+    def report_faculty_free_day_violations(self, solver):
+        print("\n=== FACULTY FREE DAY VIOLATION REPORT ===")
+        violations = []
+        for v in getattr(self, 'faculty_free_day_violations', []):
+            if solver.BooleanValue(v["var"]):
+                violations.append(v["faculty_id"])
+        
+        if not violations:
+            print("✅ Success! Every faculty member has at least one free day.")
+        else:
+            print(f"⚠️ {len(violations)} faculty members have NO free days (classes or meetings every day):")
+            for f_id in violations:
+                print(f"  - {f_id}")
 
     def save_solution_hint(self, solver, filepath: str):
         """Save the current solution's start values to a JSON file for use as hints in future runs."""
@@ -1640,6 +1769,7 @@ class TimetableSolver:
         if status == cp_model.OPTIMAL or status == cp_model.FEASIBLE:
             self.report_meeting_violations(cp_solver)
             self.report_hardwall_violations(cp_solver)
+            self.report_faculty_free_day_violations(cp_solver)
             #self.print_free_slots(cp_solver, "CLASSROOM")
             #self.print_clustering_audit(cp_solver, "BSCBIO24")
             print(f"Solution found! (Status: {cp_solver.StatusName(status)})")

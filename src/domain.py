@@ -94,6 +94,12 @@ class Program(BaseModel):
     """Represents a scheduled meeting or blocked time for faculty/rooms."""
     program_id: str
     program_name: str
+
+
+class ProgramTermMeetingSlots(BaseModel):
+    program_id: str
+    term_id: str = "FULL"
+    attendee_type: str
     meeting_slots: List[int] = []
 
 class Term(BaseModel):
@@ -195,6 +201,8 @@ class TimetableScenario(BaseModel):
     programs: List[Program]
     course_categories: List[CourseCategory]
     terms: List[Term] = []
+    program_term_meeting_slots: List[ProgramTermMeetingSlots] = []
+
 
 
     def get_course_by_id(self, course_id: str) -> Course:

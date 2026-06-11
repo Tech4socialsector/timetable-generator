@@ -6,7 +6,7 @@ from typing import List, Tuple, Dict, Set
 from .domain import (
     TimetableScenario, WorkWeekConfig, TeachingLocation, Faculty, 
     Course, Section, Cohort, RoomType,  TimeSlot, CourseCategory,
-    Program, Term
+    Program, Term, ProgramTermMeetingSlots
 )
 
 class ExcelDataLoader:
@@ -112,6 +112,49 @@ class ExcelDataLoader:
             )
         return programs
     
+    def _load_meeting_slots(self, programs: List[Program], terms: List[Term]):
+        print("Loading meeting slots")
+        meeting_slots = []
+        df_meeting_slots = pd.read_excel(self.xls, 'Meeting Slots', na_values=[], keep_default_na=False)
+        program_id_list = [p.program_id for p in programs]
+        term_id_list = [t.term_id for t in terms]
+        unknown_terms = set()
+        unknown_programs = set()
+        unknown_attendee_types = set()
+        for _, row in df_meeting_slots.iterrows():
+            program_id = str(row['program_id']).strip().upper()
+            if program_id not in program_id_list:
+                unknown_programs.add(program_id)
+                continue
+            term_id = str(row['term_id']).strip().upper()
+            if term_id not in term_id_list:
+                unknown_terms.add(term_id)
+                continue
+            meeting_slots_str = str(row['meeting_slots']).strip()
+            if meeting_slots_str and meeting_slots_str.lower() not in ('none', 'nan'):
+                _meeting_slots = [int(float(x.strip())) for x in meeting_slots_str.split(',')]
+            else:
+                _meeting_slots = []
+            attendee_type_str = str[row['meeting_slots']].strip().upper()
+            if attendee_type_str and attendee_type_str not in ['STUDENT_ONLY', 'FACULTY_ONLY', 'BOTH']:
+                unknown_attendee_types.add(attendee_type_str)
+                continue
+            meeting_slots.append(
+                ProgramTermMeetingSlots(program_id=program_id, term_id=term_id, meeting_slots=_meeting_slots)
+            )
+        errors = []
+        if unknown_programs:
+            errors.append(f"The following unknown program IDs were encountered in the Meeting Slots sheet : {','.join(unknown_programs)}")
+        if unknown_terms:
+            errors.append(f"The following unknown term IDs were encountered in the Meeting Slots sheet : {','.join(unknown_terms)}")
+        if unknown_attendee_types:
+            errors.append(f"The following unknown attendee types were encountered in the Meeting Slots sheet : {','.join(unknown_attendee_types)}")
+        if errors:
+            print("\n".join(errors))
+            sys.exit(1)
+        return meeting_slots
+
+
     def _load_terms(self) -> List[Term]:
         from datetime import date
         try:
@@ -157,6 +200,7 @@ class ExcelDataLoader:
                             available_slots.append(TimeSlot(day_index=i, slot_index=s))
                     elif a.strip() != 'NONE':
                         available_slots.append(TimeSlot(day_index=i, slot_index=int(a.strip())))
+            program_ids = str[row['program_ids']].strip().upper().split(',') if row.get('program_ids') else []
             faculty.append(
                 Faculty(id=str(row['id']).strip().lower(), name=str(row['name']), 
                         available_slots=available_slots)
@@ -332,7 +376,13 @@ class ExcelDataLoader:
             print("No terms found! Exiting.")
             return None
         #pp.pprint(terms)
-        
+
+        meeting_slots = self._load_meeting_slots(programs, terms)
+        if not meeting_slots:
+            print("No meeting slots found! Exiting.")
+            return None
+        #pp.pprint(meeting_slots)
+
         courses, sections, cohorts = self._load_courses_sections_cohorts(faculty, categories, programs)
         if not courses or not sections:
             print("No courses or sections found! Exiting.")
@@ -360,7 +410,8 @@ class ExcelDataLoader:
             cohorts=[Cohort(id=cid) for cid in cohorts if cid],
             course_categories=categories,
             programs=programs,
-            terms=terms
+            terms=terms,
+            program_term_meeting_slots=meeting_slots
         )
         
     def _validate_location_sufficiency(self, config, locations, sections, courses, course_categories) -> bool:
