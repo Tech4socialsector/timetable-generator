@@ -1,0 +1,328 @@
+{
+ "actions": [],
+ "allow_rename": 0,
+ "autoname": "hash",
+ "creation": "2026-11-18 12:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "plan",
+  "serial_no",
+  "course_code",
+  "section_number",
+  "course_name",
+  "category",
+  "section_key",
+  "col1",
+  "program_ids",
+  "term_id",
+  "school",
+  "credits",
+  "group_name",
+  "teaching_section",
+  "faculty_ids",
+  "required_cohorts",
+  "optional_cohorts",
+  "col2",
+  "theory_durations",
+  "lab_durations",
+  "required_room_capacity",
+  "required_lab_type",
+  "scheduling_section",
+  "allowed_slots",
+  "allowed_days",
+  "preferred_slot",
+  "start_date",
+  "end_date",
+  "col3",
+  "preferred_theory_buildings",
+  "preferred_theory_layouts",
+  "preferred_lab_buildings",
+  "preferred_lab_layouts",
+  "remarks"
+ ],
+ "fields": [
+  {
+   "fieldname": "plan",
+   "fieldtype": "Link",
+   "idx": 1,
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Plan",
+   "options": "TT Plan",
+   "reqd": 1,
+   "search_index": 1
+  },
+  {
+   "description": "Row reference from the planning workbook.",
+   "fieldname": "serial_no",
+   "fieldtype": "Data",
+   "idx": 2,
+   "label": "SI no"
+  },
+  {
+   "fieldname": "course_code",
+   "fieldtype": "Data",
+   "idx": 3,
+   "in_list_view": 1,
+   "label": "Course code",
+   "reqd": 1,
+   "search_index": 1
+  },
+  {
+   "default": "1",
+   "fieldname": "section_number",
+   "fieldtype": "Int",
+   "idx": 4,
+   "in_list_view": 1,
+   "label": "Section"
+  },
+  {
+   "fieldname": "course_name",
+   "fieldtype": "Data",
+   "idx": 5,
+   "in_list_view": 1,
+   "label": "Course name"
+  },
+  {
+   "fieldname": "category",
+   "fieldtype": "Data",
+   "idx": 6,
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Category"
+  },
+  {
+   "fieldname": "section_key",
+   "fieldtype": "Data",
+   "idx": 7,
+   "label": "Section key",
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "col1",
+   "fieldtype": "Column Break",
+   "idx": 8,
+   "label": "Col1"
+  },
+  {
+   "fieldname": "program_ids",
+   "fieldtype": "Data",
+   "idx": 9,
+   "in_standard_filter": 1,
+   "label": "Programmes"
+  },
+  {
+   "default": "FULL",
+   "fieldname": "term_id",
+   "fieldtype": "Data",
+   "idx": 10,
+   "in_standard_filter": 1,
+   "label": "Term ID"
+  },
+  {
+   "fieldname": "school",
+   "fieldtype": "Data",
+   "idx": 11,
+   "label": "School"
+  },
+  {
+   "fieldname": "credits",
+   "fieldtype": "Float",
+   "idx": 12,
+   "label": "Credits"
+  },
+  {
+   "fieldname": "group_name",
+   "fieldtype": "Data",
+   "idx": 13,
+   "label": "Group"
+  },
+  {
+   "fieldname": "teaching_section",
+   "fieldtype": "Section Break",
+   "idx": 14,
+   "label": "Teaching"
+  },
+  {
+   "description": "Comma separated faculty IDs (emails).",
+   "fieldname": "faculty_ids",
+   "fieldtype": "Small Text",
+   "idx": 15,
+   "label": "Faculty"
+  },
+  {
+   "fieldname": "required_cohorts",
+   "fieldtype": "Small Text",
+   "idx": 16,
+   "label": "Cohorts"
+  },
+  {
+   "fieldname": "optional_cohorts",
+   "fieldtype": "Small Text",
+   "idx": 17,
+   "label": "Optional cohorts"
+  },
+  {
+   "fieldname": "col2",
+   "fieldtype": "Column Break",
+   "idx": 18,
+   "label": "Col2"
+  },
+  {
+   "description": "Slots per session, e.g. 1,1 = two single-slot sessions.",
+   "fieldname": "theory_durations",
+   "fieldtype": "Data",
+   "idx": 19,
+   "label": "Theory sessions"
+  },
+  {
+   "fieldname": "lab_durations",
+   "fieldtype": "Data",
+   "idx": 20,
+   "label": "Lab sessions"
+  },
+  {
+   "fieldname": "required_room_capacity",
+   "fieldtype": "Int",
+   "idx": 21,
+   "label": "Room capacity"
+  },
+  {
+   "fieldname": "required_lab_type",
+   "fieldtype": "Data",
+   "idx": 22,
+   "label": "Lab type"
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "scheduling_section",
+   "fieldtype": "Section Break",
+   "idx": 23,
+   "label": "Scheduling preferences"
+  },
+  {
+   "fieldname": "allowed_slots",
+   "fieldtype": "Data",
+   "idx": 24,
+   "label": "Allowed start slots"
+  },
+  {
+   "fieldname": "allowed_days",
+   "fieldtype": "Data",
+   "idx": 25,
+   "label": "Allowed days"
+  },
+  {
+   "fieldname": "preferred_slot",
+   "fieldtype": "Data",
+   "idx": 26,
+   "label": "Preferred slots"
+  },
+  {
+   "fieldname": "start_date",
+   "fieldtype": "Date",
+   "idx": 27,
+   "label": "Start date"
+  },
+  {
+   "fieldname": "end_date",
+   "fieldtype": "Date",
+   "idx": 28,
+   "label": "End date"
+  },
+  {
+   "fieldname": "col3",
+   "fieldtype": "Column Break",
+   "idx": 29,
+   "label": "Col3"
+  },
+  {
+   "fieldname": "preferred_theory_buildings",
+   "fieldtype": "Data",
+   "idx": 30,
+   "label": "Preferred theory buildings"
+  },
+  {
+   "fieldname": "preferred_theory_layouts",
+   "fieldtype": "Data",
+   "idx": 31,
+   "label": "Preferred theory layouts"
+  },
+  {
+   "fieldname": "preferred_lab_buildings",
+   "fieldtype": "Data",
+   "idx": 32,
+   "label": "Preferred lab buildings"
+  },
+  {
+   "fieldname": "preferred_lab_layouts",
+   "fieldtype": "Data",
+   "idx": 33,
+   "label": "Preferred lab layouts"
+  },
+  {
+   "fieldname": "remarks",
+   "fieldtype": "Small Text",
+   "idx": 34,
+   "label": "Remarks"
+  }
+ ],
+ "index_web_pages_for_search": 0,
+ "links": [],
+ "modified": "2026-11-25 12:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Timetable Generator",
+ "name": "TT Section",
+ "naming_rule": "Random",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "import": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "import": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Timetable Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Timetable Approver"
+  },
+  {
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Timetable Viewer"
+  }
+ ],
+ "row_format": "Dynamic",
+ "search_fields": "course_code,course_name,faculty_ids",
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "title_field": "course_name"
+}

@@ -1,0 +1,317 @@
+{
+ "actions": [],
+ "allow_rename": 0,
+ "autoname": "field:plan_name",
+ "creation": "2026-11-18 12:00:00.000000",
+ "description": "A timetabling plan: one campus and semester (for example Bangalore Jan 2027).",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "plan_name",
+  "campus",
+  "academic_year",
+  "col1",
+  "start_date",
+  "end_date",
+  "status",
+  "description",
+  "week_section",
+  "teaching_days",
+  "regular_days",
+  "slots",
+  "lunch_slots",
+  "rules_section",
+  "w_meeting",
+  "w_faculty_rest",
+  "w_faculty_free_day",
+  "w_session_gap",
+  "col2",
+  "w_balance",
+  "w_building",
+  "w_layout",
+  "solver_section",
+  "time_limit",
+  "num_workers",
+  "col3",
+  "cross_term_overlap",
+  "active_version",
+  "readiness_section",
+  "readiness_checked_on",
+  "readiness"
+ ],
+ "fields": [
+  {
+   "fieldname": "plan_name",
+   "fieldtype": "Data",
+   "idx": 1,
+   "in_list_view": 1,
+   "label": "Plan name",
+   "reqd": 1,
+   "unique": 1
+  },
+  {
+   "fieldname": "campus",
+   "fieldtype": "Data",
+   "idx": 2,
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Campus"
+  },
+  {
+   "fieldname": "academic_year",
+   "fieldtype": "Data",
+   "idx": 3,
+   "label": "Academic year"
+  },
+  {
+   "fieldname": "col1",
+   "fieldtype": "Column Break",
+   "idx": 4,
+   "label": "Col1"
+  },
+  {
+   "fieldname": "start_date",
+   "fieldtype": "Date",
+   "idx": 5,
+   "label": "Start date"
+  },
+  {
+   "fieldname": "end_date",
+   "fieldtype": "Date",
+   "idx": 6,
+   "label": "End date"
+  },
+  {
+   "default": "Setup",
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "idx": 7,
+   "in_list_view": 1,
+   "label": "Status",
+   "options": "Setup\nReady\nGenerated\nFinalised"
+  },
+  {
+   "fieldname": "description",
+   "fieldtype": "Small Text",
+   "idx": 8,
+   "label": "Description"
+  },
+  {
+   "description": "The solver uses a 6-day x 6-slot week. Slots 1-4 Monday to Friday are regular teaching slots.",
+   "fieldname": "week_section",
+   "fieldtype": "Section Break",
+   "idx": 9,
+   "label": "Week structure"
+  },
+  {
+   "default": "Mon,Tue,Wed,Thu,Fri,Sat",
+   "description": "Days in the timetable week, e.g. Mon,Tue,Wed,Thu,Fri,Sat.",
+   "fieldname": "teaching_days",
+   "fieldtype": "Data",
+   "idx": 10,
+   "label": "Teaching days"
+  },
+  {
+   "default": "Mon,Tue,Wed,Thu,Fri",
+   "description": "Days used when a section or category does not list allowed slots.",
+   "fieldname": "regular_days",
+   "fieldtype": "Data",
+   "idx": 11,
+   "label": "Regular days"
+  },
+  {
+   "fieldname": "slots",
+   "fieldtype": "Table",
+   "idx": 12,
+   "label": "Time slots",
+   "options": "TT Plan Slot"
+  },
+  {
+   "description": "Slot numbers blocked every day, e.g. a lunch slot. Must be consecutive.",
+   "fieldname": "lunch_slots",
+   "fieldtype": "Data",
+   "idx": 13,
+   "label": "Blocked slots (all days)"
+  },
+  {
+   "description": "Relative importance of each preference. 100 = the solver's standard weight, 0 = ignore.",
+   "fieldname": "rules_section",
+   "fieldtype": "Section Break",
+   "idx": 14,
+   "label": "Rules & preferences"
+  },
+  {
+   "default": "100",
+   "fieldname": "w_meeting",
+   "fieldtype": "Int",
+   "idx": 15,
+   "label": "Keep meeting slots free"
+  },
+  {
+   "default": "100",
+   "fieldname": "w_faculty_rest",
+   "fieldtype": "Int",
+   "idx": 16,
+   "label": "Faculty rest (no back-to-back)"
+  },
+  {
+   "default": "100",
+   "fieldname": "w_faculty_free_day",
+   "fieldtype": "Int",
+   "idx": 17,
+   "label": "Faculty free day"
+  },
+  {
+   "default": "100",
+   "fieldname": "w_session_gap",
+   "fieldtype": "Int",
+   "idx": 18,
+   "label": "Gap between sessions"
+  },
+  {
+   "fieldname": "col2",
+   "fieldtype": "Column Break",
+   "idx": 19,
+   "label": "Col2"
+  },
+  {
+   "default": "100",
+   "fieldname": "w_balance",
+   "fieldtype": "Int",
+   "idx": 20,
+   "label": "Balanced week"
+  },
+  {
+   "default": "100",
+   "fieldname": "w_building",
+   "fieldtype": "Int",
+   "idx": 21,
+   "label": "Preferred building"
+  },
+  {
+   "default": "100",
+   "fieldname": "w_layout",
+   "fieldtype": "Int",
+   "idx": 22,
+   "label": "Preferred room layout"
+  },
+  {
+   "fieldname": "solver_section",
+   "fieldtype": "Section Break",
+   "idx": 23,
+   "label": "Solver"
+  },
+  {
+   "default": "30",
+   "fieldname": "time_limit",
+   "fieldtype": "Int",
+   "idx": 24,
+   "label": "Time limit (minutes)"
+  },
+  {
+   "default": "8",
+   "fieldname": "num_workers",
+   "fieldtype": "Int",
+   "idx": 25,
+   "label": "Solver threads"
+  },
+  {
+   "fieldname": "col3",
+   "fieldtype": "Column Break",
+   "idx": 26,
+   "label": "Col3"
+  },
+  {
+   "default": "1",
+   "fieldname": "cross_term_overlap",
+   "fieldtype": "Check",
+   "idx": 27,
+   "label": "Prevent double booking across overlapping terms"
+  },
+  {
+   "fieldname": "active_version",
+   "fieldtype": "Link",
+   "idx": 28,
+   "label": "Approved version",
+   "options": "TT Version",
+   "read_only": 1
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "readiness_section",
+   "fieldtype": "Section Break",
+   "idx": 29,
+   "label": "Readiness"
+  },
+  {
+   "fieldname": "readiness_checked_on",
+   "fieldtype": "Datetime",
+   "idx": 30,
+   "label": "Last checked",
+   "read_only": 1
+  },
+  {
+   "fieldname": "readiness",
+   "fieldtype": "Long Text",
+   "idx": 31,
+   "label": "Readiness result (JSON)",
+   "read_only": 1
+  }
+ ],
+ "index_web_pages_for_search": 0,
+ "links": [],
+ "modified": "2026-11-25 13:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Timetable Generator",
+ "name": "TT Plan",
+ "naming_rule": "By fieldname",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "import": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "import": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Timetable Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Timetable Approver"
+  },
+  {
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Timetable Viewer"
+  }
+ ],
+ "row_format": "Dynamic",
+ "search_fields": "campus",
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": [],
+ "title_field": "plan_name"
+}

@@ -1,0 +1,11 @@
+html, body, #app { height: 100%; }
+body { -webkit-font-smoothing: antialiased; }
+.tt-table { border-collapse: separate; border-spacing: 0; table-layout: fixed; }
+.tt-table thead th { position: sticky; top: 0; z-index: 1; }
+.tt-table thead tr:hover .group-hover\:opacity-40, .tt-table thead th:hover [class*='lucide-arrow-up-down'] { opacity: 0.4; }
+.tt-scroll { scrollbar-width: thin; }
+.tt-page { margin-left: auto; margin-right: auto; width: 100%; max-width: 88rem; padding: 1.5rem; }
+@media (min-width: 1024px) { .tt-page { padding: 1.75rem 2rem; } }
+.tt-narrow { max-width: 68rem; }
+.tt-sticky-edge { box-shadow: 6px 0 8px -6px rgba(15, 23, 42, 0.25); }
+.tt-table { table-layout: fixed; }

@@ -1,0 +1,206 @@
+{
+ "actions": [],
+ "allow_rename": 0,
+ "autoname": "hash",
+ "creation": "2026-11-18 12:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "plan",
+  "faculty_id",
+  "faculty_name",
+  "program_ids",
+  "col1",
+  "evening",
+  "user",
+  "remarks",
+  "availability_section",
+  "mon",
+  "tue",
+  "wed",
+  "col_av2",
+  "thu",
+  "fri",
+  "sat",
+  "sun"
+ ],
+ "fields": [
+  {
+   "fieldname": "plan",
+   "fieldtype": "Link",
+   "idx": 1,
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Plan",
+   "options": "TT Plan",
+   "reqd": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "faculty_id",
+   "fieldtype": "Data",
+   "idx": 2,
+   "in_list_view": 1,
+   "label": "Faculty ID (email)",
+   "reqd": 1
+  },
+  {
+   "fieldname": "faculty_name",
+   "fieldtype": "Data",
+   "idx": 3,
+   "in_list_view": 1,
+   "label": "Name"
+  },
+  {
+   "fieldname": "program_ids",
+   "fieldtype": "Data",
+   "idx": 4,
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Programmes"
+  },
+  {
+   "fieldname": "col1",
+   "fieldtype": "Column Break",
+   "idx": 5,
+   "label": "Col1"
+  },
+  {
+   "fieldname": "evening",
+   "fieldtype": "Check",
+   "idx": 6,
+   "label": "Evening classes OK"
+  },
+  {
+   "fieldname": "user",
+   "fieldtype": "Link",
+   "idx": 7,
+   "label": "User",
+   "options": "User"
+  },
+  {
+   "fieldname": "remarks",
+   "fieldtype": "Small Text",
+   "idx": 8,
+   "label": "Remarks"
+  },
+  {
+   "description": "Per day: ALL, NONE, or slot numbers such as 1,2,4 (slots 0-5).",
+   "fieldname": "availability_section",
+   "fieldtype": "Section Break",
+   "idx": 9,
+   "label": "Weekly availability"
+  },
+  {
+   "default": "ALL",
+   "fieldname": "mon",
+   "fieldtype": "Data",
+   "idx": 10,
+   "label": "Mon"
+  },
+  {
+   "default": "ALL",
+   "fieldname": "tue",
+   "fieldtype": "Data",
+   "idx": 11,
+   "label": "Tue"
+  },
+  {
+   "default": "ALL",
+   "fieldname": "wed",
+   "fieldtype": "Data",
+   "idx": 12,
+   "label": "Wed"
+  },
+  {
+   "fieldname": "col_av2",
+   "fieldtype": "Column Break",
+   "idx": 13,
+   "label": "Col Av2"
+  },
+  {
+   "default": "ALL",
+   "fieldname": "thu",
+   "fieldtype": "Data",
+   "idx": 14,
+   "label": "Thu"
+  },
+  {
+   "default": "ALL",
+   "fieldname": "fri",
+   "fieldtype": "Data",
+   "idx": 15,
+   "label": "Fri"
+  },
+  {
+   "default": "ALL",
+   "fieldname": "sat",
+   "fieldtype": "Data",
+   "idx": 16,
+   "label": "Sat"
+  },
+  {
+   "default": "NONE",
+   "fieldname": "sun",
+   "fieldtype": "Data",
+   "idx": 17,
+   "label": "Sun"
+  }
+ ],
+ "index_web_pages_for_search": 0,
+ "links": [],
+ "modified": "2026-11-25 13:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Timetable Generator",
+ "name": "TT Faculty",
+ "naming_rule": "Random",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "import": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "import": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Timetable Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Timetable Approver"
+  },
+  {
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Timetable Viewer"
+  }
+ ],
+ "row_format": "Dynamic",
+ "search_fields": "faculty_id",
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "title_field": "faculty_name"
+}

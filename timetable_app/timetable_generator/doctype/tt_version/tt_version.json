@@ -1,0 +1,386 @@
+{
+ "actions": [],
+ "allow_rename": 0,
+ "autoname": "hash",
+ "creation": "2026-11-18 12:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "plan",
+  "version_label",
+  "source",
+  "run_status",
+  "approval_status",
+  "col1",
+  "solver_status",
+  "objective",
+  "best_bound",
+  "solutions_found",
+  "wall_time",
+  "entries_count",
+  "hard_issues",
+  "soft_issues",
+  "run_section",
+  "time_limit",
+  "seed",
+  "hint_from",
+  "job_id",
+  "started_at",
+  "finished_at",
+  "col2",
+  "progress",
+  "weights",
+  "error",
+  "approval_section",
+  "notes",
+  "submitted_by",
+  "submitted_on",
+  "col3",
+  "reviewed_by",
+  "reviewed_on",
+  "review_comment",
+  "details_section",
+  "violations",
+  "checks",
+  "stats",
+  "hint",
+  "log"
+ ],
+ "fields": [
+  {
+   "fieldname": "plan",
+   "fieldtype": "Link",
+   "idx": 1,
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Plan",
+   "options": "TT Plan",
+   "reqd": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "version_label",
+   "fieldtype": "Data",
+   "idx": 2,
+   "in_list_view": 1,
+   "label": "Label"
+  },
+  {
+   "default": "Generated",
+   "fieldname": "source",
+   "fieldtype": "Select",
+   "idx": 3,
+   "label": "Source",
+   "options": "Generated\nImported"
+  },
+  {
+   "default": "Queued",
+   "fieldname": "run_status",
+   "fieldtype": "Select",
+   "idx": 4,
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Run status",
+   "options": "Queued\nRunning\nCompleted\nFailed\nCancelled"
+  },
+  {
+   "default": "Draft",
+   "fieldname": "approval_status",
+   "fieldtype": "Select",
+   "idx": 5,
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Approval",
+   "options": "Draft\nSubmitted\nApproved\nChanges Requested\nSuperseded"
+  },
+  {
+   "fieldname": "col1",
+   "fieldtype": "Column Break",
+   "idx": 6,
+   "label": "Col1"
+  },
+  {
+   "fieldname": "solver_status",
+   "fieldtype": "Data",
+   "idx": 7,
+   "label": "Solver status",
+   "read_only": 1
+  },
+  {
+   "fieldname": "objective",
+   "fieldtype": "Float",
+   "idx": 8,
+   "label": "Penalty score",
+   "read_only": 1
+  },
+  {
+   "fieldname": "best_bound",
+   "fieldtype": "Float",
+   "idx": 9,
+   "label": "Best bound",
+   "read_only": 1
+  },
+  {
+   "fieldname": "solutions_found",
+   "fieldtype": "Int",
+   "idx": 10,
+   "label": "Solutions found",
+   "read_only": 1
+  },
+  {
+   "fieldname": "wall_time",
+   "fieldtype": "Float",
+   "idx": 11,
+   "label": "Run time (s)",
+   "read_only": 1
+  },
+  {
+   "fieldname": "entries_count",
+   "fieldtype": "Int",
+   "idx": 12,
+   "label": "Sessions",
+   "read_only": 1
+  },
+  {
+   "fieldname": "hard_issues",
+   "fieldtype": "Int",
+   "idx": 13,
+   "label": "Hard issues",
+   "read_only": 1
+  },
+  {
+   "fieldname": "soft_issues",
+   "fieldtype": "Int",
+   "idx": 14,
+   "label": "Soft issues",
+   "read_only": 1
+  },
+  {
+   "fieldname": "run_section",
+   "fieldtype": "Section Break",
+   "idx": 15,
+   "label": "Run"
+  },
+  {
+   "fieldname": "time_limit",
+   "fieldtype": "Int",
+   "idx": 16,
+   "label": "Time limit (s)"
+  },
+  {
+   "fieldname": "seed",
+   "fieldtype": "Int",
+   "idx": 17,
+   "label": "Seed"
+  },
+  {
+   "fieldname": "hint_from",
+   "fieldtype": "Link",
+   "idx": 18,
+   "label": "Started from",
+   "options": "TT Version"
+  },
+  {
+   "fieldname": "job_id",
+   "fieldtype": "Data",
+   "idx": 19,
+   "label": "Job",
+   "read_only": 1
+  },
+  {
+   "fieldname": "started_at",
+   "fieldtype": "Datetime",
+   "idx": 20,
+   "label": "Started",
+   "read_only": 1
+  },
+  {
+   "fieldname": "finished_at",
+   "fieldtype": "Datetime",
+   "idx": 21,
+   "label": "Finished",
+   "read_only": 1
+  },
+  {
+   "fieldname": "col2",
+   "fieldtype": "Column Break",
+   "idx": 22,
+   "label": "Col2"
+  },
+  {
+   "fieldname": "progress",
+   "fieldtype": "Long Text",
+   "idx": 23,
+   "label": "Progress (JSON)",
+   "read_only": 1
+  },
+  {
+   "fieldname": "weights",
+   "fieldtype": "Long Text",
+   "idx": 24,
+   "label": "Weights used (JSON)",
+   "read_only": 1
+  },
+  {
+   "fieldname": "error",
+   "fieldtype": "Long Text",
+   "idx": 25,
+   "label": "Error",
+   "read_only": 1
+  },
+  {
+   "fieldname": "approval_section",
+   "fieldtype": "Section Break",
+   "idx": 26,
+   "label": "Approval"
+  },
+  {
+   "fieldname": "notes",
+   "fieldtype": "Small Text",
+   "idx": 27,
+   "label": "Notes"
+  },
+  {
+   "fieldname": "submitted_by",
+   "fieldtype": "Link",
+   "idx": 28,
+   "label": "Submitted by",
+   "options": "User",
+   "read_only": 1
+  },
+  {
+   "fieldname": "submitted_on",
+   "fieldtype": "Datetime",
+   "idx": 29,
+   "label": "Submitted on",
+   "read_only": 1
+  },
+  {
+   "fieldname": "col3",
+   "fieldtype": "Column Break",
+   "idx": 30,
+   "label": "Col3"
+  },
+  {
+   "fieldname": "reviewed_by",
+   "fieldtype": "Link",
+   "idx": 31,
+   "label": "Reviewed by",
+   "options": "User",
+   "read_only": 1
+  },
+  {
+   "fieldname": "reviewed_on",
+   "fieldtype": "Datetime",
+   "idx": 32,
+   "label": "Reviewed on",
+   "read_only": 1
+  },
+  {
+   "fieldname": "review_comment",
+   "fieldtype": "Small Text",
+   "idx": 33,
+   "label": "Review comment",
+   "read_only": 1
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "details_section",
+   "fieldtype": "Section Break",
+   "idx": 34,
+   "label": "Details"
+  },
+  {
+   "fieldname": "violations",
+   "fieldtype": "Long Text",
+   "idx": 35,
+   "label": "Soft violations (JSON)",
+   "read_only": 1
+  },
+  {
+   "fieldname": "checks",
+   "fieldtype": "Long Text",
+   "idx": 36,
+   "label": "Hard checks (JSON)",
+   "read_only": 1
+  },
+  {
+   "fieldname": "stats",
+   "fieldtype": "Long Text",
+   "idx": 37,
+   "label": "Stats (JSON)",
+   "read_only": 1
+  },
+  {
+   "fieldname": "hint",
+   "fieldtype": "Long Text",
+   "idx": 38,
+   "label": "Solution hint (JSON)",
+   "read_only": 1
+  },
+  {
+   "fieldname": "log",
+   "fieldtype": "Long Text",
+   "idx": 39,
+   "label": "Log",
+   "read_only": 1
+  }
+ ],
+ "index_web_pages_for_search": 0,
+ "links": [],
+ "modified": "2026-11-18 12:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Timetable Generator",
+ "name": "TT Version",
+ "naming_rule": "Random",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "import": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "import": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Timetable Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Timetable Viewer"
+  },
+  {
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Timetable Approver",
+   "write": 1
+  }
+ ],
+ "row_format": "Dynamic",
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "title_field": "version_label",
+ "track_changes": 1
+}

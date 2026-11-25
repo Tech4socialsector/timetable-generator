@@ -1,0 +1,218 @@
+{
+ "actions": [],
+ "allow_rename": 0,
+ "autoname": "hash",
+ "creation": "2026-11-18 12:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "plan",
+  "room_id",
+  "room_name",
+  "building",
+  "col1",
+  "room_type",
+  "capacity",
+  "lab_type",
+  "layouts",
+  "availability_section",
+  "mon",
+  "tue",
+  "wed",
+  "col_av2",
+  "thu",
+  "fri",
+  "sat",
+  "sun"
+ ],
+ "fields": [
+  {
+   "fieldname": "plan",
+   "fieldtype": "Link",
+   "idx": 1,
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Plan",
+   "options": "TT Plan",
+   "reqd": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "room_id",
+   "fieldtype": "Data",
+   "idx": 2,
+   "in_list_view": 1,
+   "label": "Room ID",
+   "reqd": 1
+  },
+  {
+   "fieldname": "room_name",
+   "fieldtype": "Data",
+   "idx": 3,
+   "in_list_view": 1,
+   "label": "Room name"
+  },
+  {
+   "fieldname": "building",
+   "fieldtype": "Data",
+   "idx": 4,
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Building"
+  },
+  {
+   "fieldname": "col1",
+   "fieldtype": "Column Break",
+   "idx": 5,
+   "label": "Col1"
+  },
+  {
+   "default": "CLASSROOM",
+   "fieldname": "room_type",
+   "fieldtype": "Select",
+   "idx": 6,
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Type",
+   "options": "CLASSROOM\nLAB\nEITHER"
+  },
+  {
+   "fieldname": "capacity",
+   "fieldtype": "Int",
+   "idx": 7,
+   "in_list_view": 1,
+   "label": "Capacity"
+  },
+  {
+   "fieldname": "lab_type",
+   "fieldtype": "Data",
+   "idx": 8,
+   "label": "Lab type"
+  },
+  {
+   "description": "Comma separated, e.g. GROUND FLOOR, NO CHALK",
+   "fieldname": "layouts",
+   "fieldtype": "Data",
+   "idx": 9,
+   "label": "Layouts"
+  },
+  {
+   "description": "Per day: ALL, NONE, or slot numbers such as 1,2,4 (slots 0-5).",
+   "fieldname": "availability_section",
+   "fieldtype": "Section Break",
+   "idx": 10,
+   "label": "Weekly availability"
+  },
+  {
+   "default": "ALL",
+   "fieldname": "mon",
+   "fieldtype": "Data",
+   "idx": 11,
+   "label": "Mon"
+  },
+  {
+   "default": "ALL",
+   "fieldname": "tue",
+   "fieldtype": "Data",
+   "idx": 12,
+   "label": "Tue"
+  },
+  {
+   "default": "ALL",
+   "fieldname": "wed",
+   "fieldtype": "Data",
+   "idx": 13,
+   "label": "Wed"
+  },
+  {
+   "fieldname": "col_av2",
+   "fieldtype": "Column Break",
+   "idx": 14,
+   "label": "Col Av2"
+  },
+  {
+   "default": "ALL",
+   "fieldname": "thu",
+   "fieldtype": "Data",
+   "idx": 15,
+   "label": "Thu"
+  },
+  {
+   "default": "ALL",
+   "fieldname": "fri",
+   "fieldtype": "Data",
+   "idx": 16,
+   "label": "Fri"
+  },
+  {
+   "default": "ALL",
+   "fieldname": "sat",
+   "fieldtype": "Data",
+   "idx": 17,
+   "label": "Sat"
+  },
+  {
+   "default": "ALL",
+   "fieldname": "sun",
+   "fieldtype": "Data",
+   "idx": 18,
+   "label": "Sun"
+  }
+ ],
+ "index_web_pages_for_search": 0,
+ "links": [],
+ "modified": "2026-11-25 13:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Timetable Generator",
+ "name": "TT Room",
+ "naming_rule": "Random",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "import": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "import": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Timetable Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Timetable Approver"
+  },
+  {
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Timetable Viewer"
+  }
+ ],
+ "row_format": "Dynamic",
+ "search_fields": "room_id,building",
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "title_field": "room_name"
+}

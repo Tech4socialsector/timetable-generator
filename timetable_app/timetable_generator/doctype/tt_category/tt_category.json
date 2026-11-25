@@ -1,0 +1,144 @@
+{
+ "actions": [],
+ "allow_rename": 0,
+ "autoname": "hash",
+ "creation": "2026-11-18 12:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "plan",
+  "category_id",
+  "category_name",
+  "choice_type",
+  "choice_count",
+  "col1",
+  "allowed_slots",
+  "allowed_days",
+  "preferred_slots"
+ ],
+ "fields": [
+  {
+   "fieldname": "plan",
+   "fieldtype": "Link",
+   "idx": 1,
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Plan",
+   "options": "TT Plan",
+   "reqd": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "category_id",
+   "fieldtype": "Data",
+   "idx": 2,
+   "in_list_view": 1,
+   "label": "Category ID",
+   "reqd": 1
+  },
+  {
+   "fieldname": "category_name",
+   "fieldtype": "Data",
+   "idx": 3,
+   "in_list_view": 1,
+   "label": "Name"
+  },
+  {
+   "default": "NONE",
+   "fieldname": "choice_type",
+   "fieldtype": "Select",
+   "idx": 4,
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Choice type",
+   "options": "NONE\nCONSTRAINED\nCOMPLETE\nGROUPED\nVIRTUAL_STAFFED\nVIRTUAL_OPEN"
+  },
+  {
+   "fieldname": "choice_count",
+   "fieldtype": "Int",
+   "idx": 5,
+   "label": "Choice count"
+  },
+  {
+   "fieldname": "col1",
+   "fieldtype": "Column Break",
+   "idx": 6,
+   "label": "Col1"
+  },
+  {
+   "description": "Absolute slots 0-35 (day x 6 + slot). Empty = regular slots.",
+   "fieldname": "allowed_slots",
+   "fieldtype": "Data",
+   "idx": 7,
+   "label": "Allowed start slots"
+  },
+  {
+   "fieldname": "allowed_days",
+   "fieldtype": "Data",
+   "idx": 8,
+   "label": "Allowed days"
+  },
+  {
+   "fieldname": "preferred_slots",
+   "fieldtype": "Data",
+   "idx": 9,
+   "label": "Preferred slots"
+  }
+ ],
+ "index_web_pages_for_search": 0,
+ "links": [],
+ "modified": "2026-11-18 12:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Timetable Generator",
+ "name": "TT Category",
+ "naming_rule": "Random",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "import": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "import": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Timetable Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Timetable Approver"
+  },
+  {
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Timetable Viewer"
+  }
+ ],
+ "row_format": "Dynamic",
+ "search_fields": "category_id",
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "title_field": "category_name"
+}

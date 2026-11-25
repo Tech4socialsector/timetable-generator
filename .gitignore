@@ -1,0 +1,21 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv*/
+*.egg-info/
+
+# Command-line generator working files (main.py)
+data/input/*
+data/output/*
+data/working/*
+
+# Frontend
+node_modules/
+timetable_app/public/frontend/
+timetable_app/www/timetable.html
+
+# Editors / OS
+.DS_Store
+.idea/
+.vscode/
+*.swp

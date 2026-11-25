@@ -1,0 +1,238 @@
+{
+ "actions": [],
+ "allow_rename": 0,
+ "autoname": "hash",
+ "creation": "2026-11-18 12:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "version",
+  "plan",
+  "session_key",
+  "section_key",
+  "course_code",
+  "course_name",
+  "category",
+  "session_type",
+  "session_index",
+  "col1",
+  "day_index",
+  "slot_index",
+  "duration",
+  "room_id",
+  "room_name",
+  "term_id",
+  "is_manual",
+  "people_section",
+  "faculty_ids",
+  "cohorts",
+  "program_ids",
+  "allowed_starts"
+ ],
+ "fields": [
+  {
+   "fieldname": "version",
+   "fieldtype": "Link",
+   "idx": 1,
+   "in_list_view": 1,
+   "label": "Version",
+   "options": "TT Version",
+   "reqd": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "plan",
+   "fieldtype": "Link",
+   "idx": 1,
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Plan",
+   "options": "TT Plan",
+   "reqd": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "session_key",
+   "fieldtype": "Data",
+   "idx": 3,
+   "in_list_view": 1,
+   "label": "Session"
+  },
+  {
+   "fieldname": "section_key",
+   "fieldtype": "Data",
+   "idx": 4,
+   "label": "Section",
+   "search_index": 1
+  },
+  {
+   "fieldname": "course_code",
+   "fieldtype": "Data",
+   "idx": 5,
+   "label": "Course code"
+  },
+  {
+   "fieldname": "course_name",
+   "fieldtype": "Data",
+   "idx": 6,
+   "in_list_view": 1,
+   "label": "Course name"
+  },
+  {
+   "fieldname": "category",
+   "fieldtype": "Data",
+   "idx": 7,
+   "label": "Category"
+  },
+  {
+   "default": "THEORY",
+   "fieldname": "session_type",
+   "fieldtype": "Select",
+   "idx": 8,
+   "label": "Type",
+   "options": "THEORY\nLAB"
+  },
+  {
+   "fieldname": "session_index",
+   "fieldtype": "Int",
+   "idx": 9,
+   "label": "Session no."
+  },
+  {
+   "fieldname": "col1",
+   "fieldtype": "Column Break",
+   "idx": 10,
+   "label": "Col1"
+  },
+  {
+   "fieldname": "day_index",
+   "fieldtype": "Int",
+   "idx": 11,
+   "in_list_view": 1,
+   "label": "Day (0=Mon)"
+  },
+  {
+   "fieldname": "slot_index",
+   "fieldtype": "Int",
+   "idx": 12,
+   "in_list_view": 1,
+   "label": "Slot"
+  },
+  {
+   "default": "1",
+   "fieldname": "duration",
+   "fieldtype": "Int",
+   "idx": 13,
+   "label": "Slots"
+  },
+  {
+   "fieldname": "room_id",
+   "fieldtype": "Data",
+   "idx": 14,
+   "label": "Room ID"
+  },
+  {
+   "fieldname": "room_name",
+   "fieldtype": "Data",
+   "idx": 15,
+   "in_list_view": 1,
+   "label": "Room"
+  },
+  {
+   "fieldname": "term_id",
+   "fieldtype": "Data",
+   "idx": 16,
+   "label": "Term"
+  },
+  {
+   "fieldname": "is_manual",
+   "fieldtype": "Check",
+   "idx": 17,
+   "label": "Moved by hand"
+  },
+  {
+   "fieldname": "people_section",
+   "fieldtype": "Section Break",
+   "idx": 18,
+   "label": "People Section"
+  },
+  {
+   "fieldname": "faculty_ids",
+   "fieldtype": "Small Text",
+   "idx": 19,
+   "label": "Faculty"
+  },
+  {
+   "fieldname": "cohorts",
+   "fieldtype": "Small Text",
+   "idx": 20,
+   "label": "Cohorts"
+  },
+  {
+   "fieldname": "program_ids",
+   "fieldtype": "Data",
+   "idx": 21,
+   "label": "Programmes"
+  },
+  {
+   "fieldname": "allowed_starts",
+   "fieldtype": "Small Text",
+   "idx": 22,
+   "label": "Allowed starts (JSON)"
+  }
+ ],
+ "index_web_pages_for_search": 0,
+ "links": [],
+ "modified": "2026-11-18 12:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Timetable Generator",
+ "name": "TT Entry",
+ "naming_rule": "Random",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "import": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "import": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Timetable Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Timetable Viewer"
+  },
+  {
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Timetable Approver"
+  }
+ ],
+ "row_format": "Dynamic",
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}
