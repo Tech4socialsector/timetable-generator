@@ -11,6 +11,7 @@ data/working/*
 
 # Frontend
 node_modules/
+timetable_app/public/node_modules
 timetable_app/public/frontend/
 timetable_app/www/timetable.html
 
